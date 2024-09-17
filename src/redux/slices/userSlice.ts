@@ -13,12 +13,8 @@ const userSlice = createSlice({
     status: "",
   },
   reducers: {
-    register: (
-      state,
-      action: { payload: User }
-    ) => {
-      state.users.push(action.payload as never);
-      state.status = "registered";
+    register: () => {
+      //Lengkapi logic untuk register di sini 
     },
     login: (state, action) => {
       const user = state.users.find(
@@ -34,8 +30,8 @@ const userSlice = createSlice({
         state.status = 'loginFailed'
       }
     },
-    logout: (state) => {
-      state.status = "loggedOut";
+    logout: () => {
+      //Lengkapi logic untuk logout di sini
     },
   },  
 });
