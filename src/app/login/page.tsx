@@ -1,37 +1,81 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import './login.css'
-import Link from 'next/link';
-import { login, selectUserStatus } from '@/redux/slices/userSlice';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation"; 
+import "./login.css";
+import { login, selectUserStatus } from "@/redux/slices/userSlice";
 
-const page = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+const Login = () => {
+  
+  const status = useSelector(selectUserStatus); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const router = useRouter(); 
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
-    dispatch(login({ 
-      email: email,
-      password: password,
-      loggedInUser: true
-    }))
-  }
+    e.preventDefault();
+    dispatch(
+      login({
+        email: email,
+        password: password,
+        status: 'loggedIn',
+      })
+    );
+  };
+
+  const users = useSelector((state: any) => state.user.users); // Ambil array users dari state
+
+ 
+  useEffect(() => {
+    if (status === "loggedIn") {     
+      router.push("/logout");
+    }
+  }, [status, router]); 
 
   return (
     <div className="login">
-      <form action="" className='login_form' onSubmit={(e) => handleSubmit(e)} >
+      <form action="" className="login_form" onSubmit={(e) => handleSubmit(e)}>
         <h1>Login Form</h1>
-        <input type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} placeholder='email' ></input>
-        <input type="password" value={password} onChange={(e: any) => setPassword(e.target.value)} placeholder='password' ></input>
-        <button type='submit' className='submit_button' ><Link href='logout'>Submit</Link></button>
+        <input
+          type="email"
+          value={email}
+          onChange={(e: any) => setEmail(e.target.value)}
+          placeholder="email"
+        ></input>
+        <input
+          type="password"
+          value={password}
+          onChange={(e: any) => setPassword(e.target.value)}
+          placeholder="password"
+        ></input>
+        <button type="submit" className="submit_button">
+          submit
+        </button>
       </form>
-    </div>
-  )
-}
+      {/* Menampilkan pesan error jika login gagal */}
 
-export default page
+        {status === "loginFailed" && (
+        <p style={{ color: "red" }}>Login failed. Incorrect email or password.</p>
+      )}
+
+      {users.length > 0 ? (
+        <ul>
+          {users.map((user: any, index: number) => (
+            <li key={index}>
+              <strong>Name:</strong> {user.name} <br />
+              <strong>Email:</strong> {user.email} <br />
+              <p>{user.status}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No registered users yet.</p>
+      )}
+    </div>
+  );
+};
+
+export default Login;

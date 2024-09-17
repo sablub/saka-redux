@@ -10,7 +10,7 @@ const userSlice = createSlice({
   initialState: {
     users: [],
     loggedInUser: null,
-    status: "loggedOut",
+    status: "",
   },
   reducers: {
     register: (
@@ -18,6 +18,7 @@ const userSlice = createSlice({
       action: { payload: User }
     ) => {
       state.users.push(action.payload as never);
+      state.status = "registered";
     },
     login: (state, action) => {
       const user = state.users.find(
@@ -29,17 +30,24 @@ const userSlice = createSlice({
         state.loggedInUser = user;
         state.status = "loggedIn";
       }
+      else{
+        state.status = 'loginFailed'
+      }
     },
     logout: (state) => {
-      state.loggedInUser = null;
       state.status = "loggedOut";
     },
-  },
+  },  
 });
+
 
 export const { login, logout, register } = userSlice.actions;
 
 export const selectUser = (state: any) => state.user.loggedInUser;
-export const selectUserStatus = (state: any) => state.user.status;
+export const selectUserStatus = (state: any) => {
+  return state.user.status;
+}
+export const selectUsertById = (state: any, userId: number) =>
+  state.user.find((user: any) => user.id === userId);
 
 export default userSlice.reducer;
