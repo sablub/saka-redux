@@ -2,18 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import "./login.css";
 import { login, selectUserStatus } from "@/redux/slices/userSlice";
+import Link from "next/link";
 
 const Login = () => {
-  
-  const status = useSelector(selectUserStatus); 
+
+  const status = useSelector(selectUserStatus);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -26,14 +27,14 @@ const Login = () => {
     );
   };
 
-  const users = useSelector((state: any) => state.user.users); // Ambil array users dari state
+  const users = useSelector((state: any) => state.user.users);
 
- 
+
   useEffect(() => {
-    if (status === "loggedIn") {     
+    if (status === "loggedIn") {
       router.push("/logout");
     }
-  }, [status, router]); 
+  }, [status, router]);
 
   return (
     <div className="login">
@@ -55,9 +56,7 @@ const Login = () => {
           submit
         </button>
       </form>
-      {/* Menampilkan pesan error jika login gagal */}
-
-        {status === "loginFailed" && (
+      {status === "loginFailed" && (
         <p style={{ color: "red" }}>Login failed. Incorrect email or password.</p>
       )}
 
@@ -72,7 +71,7 @@ const Login = () => {
           ))}
         </ul>
       ) : (
-        <p>No registered users yet.</p>
+        <p>No registered users yet.   <Link style={{ color: 'blue' }} href="/register">Register</Link></p>
       )}
     </div>
   );

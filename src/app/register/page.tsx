@@ -12,7 +12,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const users = useSelector((state: any) => state.user.users); // Ambil array users dari state
+  const users = useSelector((state: any) => state.user.users);
   const dispatch = useDispatch();
 
   const handleSubmit = (e: any) => {
@@ -63,7 +63,7 @@ const Register = () => {
       </form>
 
       <p>
-        Already have an account? <Link href="/login">Login</Link>
+        Already have an account? <Link style={{ color: 'blue' }} href="/login">Login</Link>
       </p>
 
       <h2>Registered Users</h2>
