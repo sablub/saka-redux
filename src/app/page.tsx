@@ -9,10 +9,6 @@ import Logout from "./logout/page";
 export default function Home() {
   const status = useSelector(selectUserStatus);
 
-  if(status === 'Registered'){
-    return <Login />
-  }
-
   if (status === 'loggedOut') {
     return <Register />; 
   }
@@ -21,5 +17,5 @@ export default function Home() {
     return <Logout />; 
   }
 
-  return <Register />; 
+  return <Login />; 
 }

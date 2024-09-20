@@ -10,11 +10,14 @@ const userSlice = createSlice({
   initialState: {
     users: [],
     loggedInUser: null,
-    status: "",
+    status: "loggedOut",
   },
   reducers: {
-    register: () => {
-      //Lengkapi logic untuk register di sini 
+    register: (
+      state,
+      action: { payload: User }
+    ) => {
+      state.users.push(action.payload as never);
     },
     login: (state, action) => {
       const user = state.users.find(
@@ -26,24 +29,17 @@ const userSlice = createSlice({
         state.loggedInUser = user;
         state.status = "loggedIn";
       }
-      else{
-        state.status = 'loginFailed'
-      }
     },
-    logout: () => {
-      //Lengkapi logic untuk logout di sini
+    logout: (state) => {
+      state.loggedInUser = null;
+      state.status = "loggedOut";
     },
-  },  
+  },
 });
-
 
 export const { login, logout, register } = userSlice.actions;
 
 export const selectUser = (state: any) => state.user.loggedInUser;
-export const selectUserStatus = (state: any) => {
-  return state.user.status;
-}
-export const selectUsertById = (state: any, userId: number) =>
-  state.user.find((user: any) => user.id === userId);
+export const selectUserStatus = (state: any) => state.user.status;
 
 export default userSlice.reducer;
