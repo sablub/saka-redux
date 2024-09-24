@@ -19,6 +19,7 @@ const Logout = () => {
   }
 
   const users = useSelector((state: any) => state.user.users); 
+  const loginUser = useSelector((state: any) => state.user.loggedInUser);
 
   useEffect(() => {
     if(status === 'loggedOut'){
@@ -28,7 +29,7 @@ const Logout = () => {
 
   return (
     <div className='container' >
-      <h1>Welcome <span className='user_name'>user</span> </h1>
+      <h1>Welcome <span className='user_name'>{loginUser.name}</span> </h1>
       <button className='logout_button' onClick={handleLogout} >Logout</button>
       {users.length > 0 ? (
         <ul>
