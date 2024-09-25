@@ -13,8 +13,8 @@ const userSlice = createSlice({
     status: "loggedOut",
   },
   reducers: {
-    register: () => {
-      // Fill  in the register logic here
+    register: (state, action) => {
+      state.users.push(action.payload as never);
     },
     login: (state, action) => {
       const user = state.users.find(
@@ -27,8 +27,9 @@ const userSlice = createSlice({
         state.status = "loggedIn";
       }
     },
-    logout: () => {
-      // Fill  in the logout logic here
+    logout: (state) => {
+      state.loggedInUser = null;
+      state.status = "loggedOut";
     },
   },
 });
